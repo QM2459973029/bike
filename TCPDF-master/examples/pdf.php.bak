@@ -1,0 +1,111 @@
+<?php
+//============================================================+
+// File name   : example_038.php
+// Begin       : 2008-09-15
+// Last Update : 2013-05-14
+//
+// Description : Example 038 for TCPDF class
+//               CID-0 CJK unembedded font
+//
+// Author: Nicola Asuni
+//
+// (c) Copyright:
+//               Nicola Asuni
+//               Tecnick.com LTD
+//               www.tecnick.com
+//               info@tecnick.com
+//============================================================+
+
+/**
+ * Creates an example PDF TEST document using TCPDF
+ * @package com.tecnick.tcpdf
+ * @abstract TCPDF - Example: CID-0 CJK unembedded font
+ * @author Nicola Asuni
+ * @since 2008-09-15
+ */
+
+// Include the main TCPDF library (search for installation path).
+require_once('tcpdf_include.php');
+
+// create new PDF document
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('bike');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData('logo.png', 20, '摩拜单车数据支持', '——2017-5-10', array(0,64,255), array(0,64,128));
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array('stsongstdlight', '', '12'));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont('courier');
+
+// set margins
+$pdf->SetMargins(15, 27, 15);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('stsongstdlight', '', 40);
+
+// add a page
+$pdf->AddPage();
+
+$txt = '      共享单车信息决策报告';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+
+$pdf->SetFont('stsongstdlight', '', 25);
+$txt = '一、区域分布概况';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+$pdf->SetFont('stsongstdlight', '', 18);
+$txt = '        该数据中共享单车主要分布区域从经度115.8至经度116.98，纬度39.6至纬度40.4。东西跨度约113公里，南北跨度约89公里，在该区域内共分布65642个点数据，数据辐射半径约为93公里。';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+
+
+
+// set font
+$pdf->SetFont('stsongstdlight', '', 25);
+$txt = '二、骑行数据概况';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+$pdf->SetFont('stsongstdlight', '', 18);
+$txt = '        该区域内共有单车58873辆，共A,B两种类型单车，A类单车使用占比约为40.37%，B类单车使用占比约为59.63%。该数据内共有65641人次参与骑行，总骑行距离约109050公里，骑行距离在一公里以内的共有17917人次，占总人数的27.3%；骑行距离在1~3公里以内的有42325人次，占总人数的64.5%；骑行距离在3~5公里以内的用户有5232人，占总人数的0.08%；人均骑行距离约1.66公里。';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+// ---------------------------------------------------------
+
+$pdf->SetFont('stsongstdlight', '', 25);
+$txt = '三、数据分析及决策';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+$pdf->SetFont('stsongstdlight', '', 18);
+$txt = '        本系统采用网格分析，利用数据点的分布情况，创建适宜大小分布的网格，并对各个网格内数据进行统计分析。通过对网格的统计分析，我们可以得知共享单车时空分布是动态的，地域上主要是跟城区人流量相关，即：约靠近主城区，人口流量越大，共享单车的需求量就会增加，呈正相关关系。在2017年5月10日，存在早中晚三个用车的高峰期，在凌晨时段各地区的需求量很小，而在其他地区同一时段，在中心城区共享单车需求量很大，午间时段需求量较为缓和。依据统计分析及实际情况，在共享单车停车设施空间分布布局方面，建议以城中心地铁站点，公交站点为中心布置集中式的共享单车投放点，对于高峰期时段，需做好对主城区的共享单车调度，提高单车周转率。';
+$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+
+
+
+
+//Close and output PDF document
+$pdf->Output('共享单车信息统计及决策报告.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+

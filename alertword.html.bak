@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="UTF-8"> 
+<title>修改密码</title> 
+<style type="text/css"> 
+  form{ 
+    text-align: center; 
+  } 
+</style> 
+</head> 
+<body> 
+  <?php  
+    session_start(); 
+  ?> 
+  <form action="alertword.php" method="post" onsubmit="return alter()"> 
+    <div>用户名</div><input type="text" name="username" id ="username" /><hr> 
+	<div>旧密码</div><input 
+      type="password" name="oldpassword" id ="oldpassword"/><hr> 
+	<div>新密码</div><input 
+      type="password" name="newpassword" id="newpassword"/><hr> 
+	<div>确认新密码</div><input 
+      type="password" name="assertpassword" id="assertpassword"/><hr> 
+	  <input 
+      type="submit" value="修改密码" onclick="return alter()"> 
+  </form> 
+    <script type="text/javascript"> 
+      document.getElementById("username").value="<? php echo "${_SESSION["username"]}";?>" 
+    </script> 
+ 
+  <script type="text/javascript"> 
+    function alter() { 
+       
+      var username=document.getElementById("username").value; 
+      var oldpassword=document.getElementById("oldpassword").value; 
+      var newpassword=document.getElementById("newpassword").value; 
+      var assertpassword=document.getElementById("assertpassword").value; 
+      var regex=/^[/s]+$/; 
+      if(regex.test(username)||username.length==0){ 
+        alert("用户名格式不对"); 
+        return false; 
+      } 
+      if(regex.test(oldpassword)||oldpassword.length==0){ 
+        alert("密码格式不对"); 
+        return false; 
+      } 
+      if(regex.test(newpassword)||newpassword.length==0) { 
+        alert("新密码格式不对"); 
+        return false; 
+      } 
+      if (assertpassword != newpassword||assertpassword==0) { 
+        alert("两次密码输入不一致"); 
+        return false; 
+      } 
+      return true; 
+ 
+    } 
+  </script>  
+</body> 
+</html> 

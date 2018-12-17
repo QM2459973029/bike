@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7loH0l4p9DrNMsX5EgtcGGdkm7ptVvTr"></script>
+    <title>热力图功能示例</title>
+	<style type="text/css">
+	html,body{
+	  width:100%;
+	  height:100%;
+	  margin:0;
+	  padding:0;
+	  overflow:hidden;
+	}
+
+	#map{
+	  width:100%;
+	  height:100%;
+	}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<canvas id="canvas"></canvas>
+
+<script type="text/javascript" src="mapv.js"></script>
+<script type="text/javascript">
+//链接数据库
+<?php
+        $time ="2017-05-10 0:00:00";//设置数据点时间
+	    $data =array();
+        $con=mysqli_connect("localhost","root","root"); 
+        if (!$con) { 
+          die('数据库连接失败'.$mysql_error()); 
+       } 
+        mysqli_select_db($con,"user_info"); 
+	    $result = mysqli_query($con,"select STARTX,STARTY from point where startTime ='{$time}';");
+	    while ($row=mysqli_fetch_array($result,MYSQLI_NUM)){
+	    $data[]=$row;
+	   }
+	    //print_r($data);
+	   
+		//echo count($data); echo '<hr>';
+	    $data = json_encode($data);
+	   // echo count($data);
+		?>
+
+var map = new BMap.Map("map",{
+	enableMapClick:false});
+	map.centerAndZoom(new BMap.Point(116.404, 39.915),12)
+	map.enableScrollWheelZoom(true);
+
+	map.setMapStyle({
+	 style:'midnight'
+	});
+
+    var points =[];
+    var data =eval('<?php echo $data;?>');
+    var markerArr = [];
+    var selecteddataCopy = [];
+    var selectedObjArr = [];
+    var defaultDistance = 25000;
+    var defaultCount = 10;
+    var maxCount = defaultCount;
+
+    function heatdata(data){
+        selectedObjArr = [];
+        var distance;
+        for(var i = 0;i<data.length;i++){
+            var count = defaultCount;
+            for(var j = 0;j<data.length-1;j++){
+				var point1 = new BMap.Point(data[j]);
+				var point2 = new BMap.Point(data[j+1]);
+                distance = map.getDistance(point1,point2);
+                if( distance < defaultDistance){
+                    count += (defaultDistance-distance)/defaultDistance;
+                }
+            }
+            if(maxCount<count){
+                maxCount = count;
+            }
+            var obj = {};
+            obj["lng"] = data[i][0];
+            obj["lat"] = data[i][1];
+            obj["count"] = Math.round(count);
+           //生成几何类点数据（包括权重值）
+            selectedObjArr.push({
+			  geometry:{
+			    type:'Point',
+				coordinates:[obj["lng"],obj["lat"]]
+			  },
+					count:obj["count"]
+			});
+        }
+
+        return selectedObjArr;
+    }
+   points = heatdata(data);//调用生成权重值函数
+   var dataset = new mapv.DataSet(points);//添加数据
+   var options = {
+     fillstyle:'rgba(55,50,250,0.8)',
+	 shadowColor:'rgba(255,250,50,1)',
+     shadowBlur:20,
+     size:33,
+     globalAlpha:0.5,
+     label:{
+	     show:true,
+	     fillStyle:'white',
+		},
+		gradient:{0.25:"rgb(0,0,255)",0.55:"rgb(0,255,0)",0.85:"yellow",1.0:"rgb(255,0,0)"},
+	    draw:'grid'
+		 }
+	var mapvLayer = new mapv.baiduMapLayer(map,dataset,options);
+
+//      var options = {
+//     fillstyle:'rgba(55,50,250,0.8)',
+//	 shadowColor:'rgba(255,250,50,1)',
+//     shadowBlur:20,
+//     size:3,
+//     draw:'simple'}
+</script>
+</body>
+</html>

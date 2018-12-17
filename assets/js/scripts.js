@@ -1,0 +1,81 @@
+//
+//    function enter() 
+//    { 
+//      var username=document.getElementById("username").value;//获取form中的用户名 
+//      var password=document.getElementById("password").value; 
+//      var regex=/^[/s]+$/;//声明一个判断用户名前后是否有空格的正则表达式 
+//      if(regex.test(username)||username.length==0)//判定用户名的是否前后有空格或者用户名是否为空 
+//        { 
+//          alert("用户名格式不对"); 
+//          return false; 
+//        } 
+//      if(regex.test(password)||password.length==0)//同上述内容 
+//      { 
+//        alert("密码格式不对"); 
+//        return false; 
+//      }
+//	    return true; 
+//    }
+//
+//function check() { 
+//var password=document.getElementById("password").value; 
+//var assertpassword=document.getElementById("password2").value; 
+//      if(password!=assertpassword){ 
+//        alert("两次密码不一致"); 
+//        return false; 
+//      } 
+//    } 
+//jQuery(document).ready(function() {
+//
+//    $('.page-container form').submit(function(){
+//        if(username == '') {
+//            $(this).find('.error').fadeOut('fast', function(){
+//                $(this).css('top', '27px');
+//            });
+//            $(this).find('.error').fadeIn('fast', function(){
+//                $(this).parent().find('.username').focus();
+//            });
+//            return false;
+//        }
+//        if(password == '') {
+//            $(this).find('.error').fadeOut('fast', function(){
+//                $(this).css('top', '96px');
+//            });
+//            $(this).find('.error').fadeIn('fast', function(){
+//                $(this).parent().find('.password').focus();
+//            });
+//            return false;
+//        }
+//		if(password2 == '' && (password == '')) {
+//            $(this).find('.error').fadeOut('fast', function(){
+//                $(this).css('top', '165px');
+//            });
+//            $(this).find('.error').fadeIn('fast', function(){
+//                $(this).parent().find('.password').focus();
+//            });
+//            return false;
+//        }
+//		if(password2 != '' && (password == '')) {
+//            $(this).find('.error').fadeOut('fast', function(){
+//                $(this).css('top', '96px');
+//            });
+//            $(this).find('.error').fadeIn('fast', function(){
+//                $(this).parent().find('.password').focus();
+//            });
+//            return false;
+//        }
+//		if(password2 != 'password') {
+//          $(this).find('.error').fadeOut('fast', function(){
+//          $(this).css('top', '96px');
+//            });
+//          $(this).find('.error').fadeIn('fast', function(){
+//                $(this).parent().find('.password2').focus();
+//            });
+//            return false;
+//    });
+//
+//    $('.page-container form .username, .page-container form .password，.page-container form .password2').keyup(function(){
+//        $(this).parent().find('.error').fadeOut('fast');
+//    });
+//
+//});
